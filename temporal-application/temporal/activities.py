@@ -17,7 +17,7 @@ class IndexDocumentsParams:
 
 
 @activity.defn(name="index_document")
-async def index_document(input: IndexDocumentsParams) -> int:
+def index_document(input: IndexDocumentsParams) -> int:
     with TemporaryDirectory() as temp_dir:
         temp_file_path = os.path.join(temp_dir, "file.pdf")
         with open(temp_file_path, "wb") as temp_file:
