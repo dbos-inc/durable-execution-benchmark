@@ -1,42 +1,30 @@
 import asyncio
-from dataclasses import dataclass
-from datetime import timedelta
+import logging
 
-from temporalio import activity, workflow
 from temporalio.client import Client
 from temporalio.worker import Worker
 
+from app.index import configure_index
+from temporal.activities import index_document
+from temporal.workflows import IndexDocumentsWorkflow
 
-@dataclass
-class YourParams:
-    greeting: str
-    name: str
+index, chat_engine = configure_index()
 
-
-@workflow.defn(name="YourWorkflow")
-class YourWorkflow:
-    @workflow.run
-    async def run(self, name: str) -> str:
-        return await workflow.execute_activity(
-            your_activity,
-            YourParams("Hello", name),
-            start_to_close_timeout=timedelta(seconds=60),
-        )
-
-
-@activity.defn(name="your_activity")
-async def your_activity(input: YourParams) -> str:
-    return f"{input.greeting}, {input.name}!"
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+logger = logging.getLogger("temporal-worker")
 
 
 async def main():
     client = await Client.connect("localhost:7233")
     worker = Worker(
         client,
-        task_queue="your-task-queue",
-        workflows=[YourWorkflow],
-        activities=[your_activity],
+        task_queue="index-task-queue",
+        workflows=[IndexDocumentsWorkflow],
+        activities=[index_document],
     )
+    logger.info("Worker ready")
     await worker.run()
 
 
