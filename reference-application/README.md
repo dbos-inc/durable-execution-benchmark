@@ -1,3 +1,5 @@
+# Reference Application
+
 This is a reference implementation of the document indexing application with no durable execution.
 
 Required environment variables:
