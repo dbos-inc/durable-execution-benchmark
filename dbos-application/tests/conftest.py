@@ -11,7 +11,7 @@ def test_document_url():
 
 @pytest.fixture
 def reset_vector_store():
-    engine = create_engine(os.environ.get("REFERENCE_DATABASE_URL"))
+    engine = create_engine(os.environ.get("DBOS_DATABASE_URL"))
     with engine.connect() as connection:
         connection.execute(text("TRUNCATE TABLE data_llamaindex"))
         connection.commit()

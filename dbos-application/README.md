@@ -1,11 +1,11 @@
-# Reference Application
+# DBOS Application
 
-This is a reference implementation of the document indexing application with no durable execution.
+This is a implementation of the document indexing application using DBOS for durable execution.
 
 Required environment variables:
 
 - `OPENAI_API_KEY`: An OpenAI API key
-- `REFERENCE_DATABASE_URL`: Connection string for a Postgres database
+- `DBOS_DATABASE_URL`: Connection string for a Postgres database
 
 To run:
 

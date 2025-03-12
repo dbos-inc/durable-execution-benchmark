@@ -17,7 +17,7 @@ app = FastAPI()
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
 )
-logger = logging.getLogger("reference-application")
+logger = logging.getLogger("dbos-application")
 
 ###########################
 # Configure Vector Index
@@ -26,9 +26,9 @@ logger = logging.getLogger("reference-application")
 
 def configure_index():
     Settings.chunk_size = 512
-    db_url = os.environ.get("REFERENCE_DATABASE_URL", None)
+    db_url = os.environ.get("DBOS_DATABASE_URL", None)
     if db_url is None:
-        raise Exception("REFERENCE_DATABASE_URL not provided")
+        raise Exception("DBOS_DATABASE_URL not provided")
     url = make_url(db_url)
     vector_store = PGVectorStore.from_params(
         database=url.database,
