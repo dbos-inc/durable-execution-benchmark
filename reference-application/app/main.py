@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 import logging
 import os
 from tempfile import TemporaryDirectory
@@ -49,12 +50,17 @@ index, chat_engine = configure_index()
 # Index Documents
 ###########################
 
+executor = ThreadPoolExecutor()
+
 
 def index_documents(urls: List[HttpUrl]):
     indexed_pages = 0
+    futures = []
     for url in urls:
-        indexed_pages += index_document(url)
-    indexed_pages = 0
+        future = executor.submit(index_document, url)
+        futures.append(future)
+    for future in futures:
+        indexed_pages += future.result()
     logger.info(f"Indexed {len(urls)} documents totaling {indexed_pages} pages")
 
 
