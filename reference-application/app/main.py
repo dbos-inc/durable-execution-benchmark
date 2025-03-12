@@ -9,21 +9,28 @@ from llama_index.core import Settings, StorageContext, VectorStoreIndex
 from llama_index.readers.file import PDFReader
 from llama_index.vector_stores.postgres import PGVectorStore
 from pydantic import BaseModel, HttpUrl
-
+from sqlalchemy import make_url
 
 app = FastAPI()
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO);
-logger = logging.getLogger('reference-application')
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+logger = logging.getLogger("reference-application")
+
 
 def configure_index():
     Settings.chunk_size = 512
+    db_url = os.environ.get("DATABASE_URL", None)
+    if db_url is None:
+        raise Exception("DATABASE_URL not provided")
+    url = make_url(db_url)
     vector_store = PGVectorStore.from_params(
-        database="reference_application",
-        host="localhost",
-        password=os.environ["PGPASSWORD"],
-        port="5432",
-        user="postgres",
+        database=url.database,
+        host=url.host,
+        password=url.password,
+        port=url.port,
+        user=url.username,
     )
     vector_store._initialize()
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
@@ -69,7 +76,6 @@ async def index_endpoint(urls: URLList):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-
 class ChatSchema(BaseModel):
     message: str
 
@@ -82,5 +88,3 @@ def chat_workflow(chat: ChatSchema):
 
 def query_model(message: str) -> str:
     return str(chat_engine.chat(message))
-
-
