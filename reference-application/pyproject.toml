@@ -1,0 +1,11 @@
+[project]
+name = "reference-application"
+version = "0.1.0"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi[standard]>=0.115.11",
+    "llama-index>=0.12.23",
+    "llama-index-vector-stores-postgres>=0.4.2",
+    "pytest>=8.3.5",
+]
