@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from dbos import DBOS
 from sqlalchemy import create_engine, text
 
 
@@ -15,3 +16,11 @@ def reset_vector_store():
     with engine.connect() as connection:
         connection.execute(text("TRUNCATE TABLE data_llamaindex"))
         connection.commit()
+
+
+@pytest.fixture()
+def reset_dbos():
+    DBOS.destroy()
+    DBOS()
+    DBOS.reset_system_database()
+    DBOS.launch()

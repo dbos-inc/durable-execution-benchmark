@@ -1,10 +1,10 @@
 import logging
 import os
-from concurrent.futures import ThreadPoolExecutor
 from tempfile import TemporaryDirectory
 from typing import List
 
 import requests
+from dbos import DBOS, Queue
 from fastapi import FastAPI, Response, status
 from llama_index.core import Settings, StorageContext, VectorStoreIndex
 from llama_index.readers.file import PDFReader
@@ -13,6 +13,7 @@ from pydantic import BaseModel, HttpUrl
 from sqlalchemy import make_url
 
 app = FastAPI()
+DBOS(fastapi=app)
 
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -50,21 +51,23 @@ index, chat_engine = configure_index()
 # Index Documents
 ###########################
 
-executor = ThreadPoolExecutor()
+queue = Queue("indexing-queue")
 
 
+@DBOS.workflow()
 def index_documents(urls: List[HttpUrl]):
     indexed_pages = 0
-    futures = []
+    handles = []
     for url in urls:
-        future = executor.submit(index_document, url)
-        futures.append(future)
-    for future in futures:
-        indexed_pages += future.result()
+        handle = queue.enqueue(index_document, url)
+        handles.append(handle)
+    for handle in handles:
+        indexed_pages += handle.get_result()
     logger.info(f"Indexed {len(urls)} documents totaling {indexed_pages} pages")
     return indexed_pages
 
 
+@DBOS.step()
 def index_document(document_url: HttpUrl) -> int:
     with TemporaryDirectory() as temp_dir:
         temp_file_path = os.path.join(temp_dir, "file.pdf")
@@ -87,7 +90,7 @@ class URLList(BaseModel):
 
 @app.post("/index")
 async def index_endpoint(urls: URLList):
-    index_documents(urls.urls)
+    DBOS.start_workflow(index_documents, urls.urls)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
