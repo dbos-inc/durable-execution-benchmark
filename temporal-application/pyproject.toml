@@ -10,6 +10,7 @@ dependencies = [
     "llama-index>=0.12.23",
     "llama-index-vector-stores-postgres>=0.4.2",
     "pytest>=8.3.5",
+    "pytest-asyncio>=0.25.3",
     "temporalio>=1.10.0",
 ]
 
