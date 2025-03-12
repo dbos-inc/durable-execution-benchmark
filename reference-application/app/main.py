@@ -62,6 +62,7 @@ def index_documents(urls: List[HttpUrl]):
     for future in futures:
         indexed_pages += future.result()
     logger.info(f"Indexed {len(urls)} documents totaling {indexed_pages} pages")
+    return indexed_pages
 
 
 def index_document(document_url: HttpUrl) -> int:
