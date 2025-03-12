@@ -18,6 +18,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger("reference-application")
 
+###########################
+# Configure Vector Index
+###########################
+
 
 def configure_index():
     Settings.chunk_size = 512
@@ -41,8 +45,12 @@ def configure_index():
 
 index, chat_engine = configure_index()
 
+###########################
+# Index Documents
+###########################
 
-def indexing_workflow(urls: List[HttpUrl]):
+
+def index_documents(urls: List[HttpUrl]):
     indexed_pages = 0
     for url in urls:
         indexed_pages += index_document(url)
@@ -72,8 +80,13 @@ class URLList(BaseModel):
 
 @app.post("/index")
 async def index_endpoint(urls: URLList):
-    indexing_workflow(urls.urls)
+    index_documents(urls.urls)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+###########################
+# Query Index
+###########################
 
 
 class ChatSchema(BaseModel):
