@@ -89,7 +89,7 @@ class URLList(BaseModel):
 
 
 @app.post("/index")
-async def index_endpoint(urls: URLList):
+def index_endpoint(urls: URLList):
     DBOS.start_workflow(index_documents, urls.urls)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
