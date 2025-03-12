@@ -1,6 +1,6 @@
-from concurrent.futures import ThreadPoolExecutor
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor
 from tempfile import TemporaryDirectory
 from typing import List
 
