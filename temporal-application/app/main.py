@@ -3,7 +3,7 @@ import uuid
 from typing import List
 
 from fastapi import FastAPI, Response, status
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 from temporalio.client import Client
 
 from temporal.temporal import IndexDocumentsWorkflow
