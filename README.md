@@ -24,7 +24,7 @@ The total size of the DBOS implementation is 114 lines of code.
 It also required rearchitecting the application into two separate services (a Temporal worker and an API server) and adding a runtime dependency on a third service, the Temporal Server.
 The total size of the Temporal implementation is 192 lines of code.
 
-All three implementations require Postgres with pgvector as a vector store.
+All three implementations use Postgres with pgvector as a vector store.
 If you have Docker, you can start Postgres with:
 
 ```shell
