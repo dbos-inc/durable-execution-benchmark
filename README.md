@@ -21,7 +21,7 @@ Upon comparing the implementations, we found adding durable execution with DBOS 
 It required no change in how the application is operated.
 The total size of the DBOS implementation is 114 lines of code.
 - Adding durable execution with Temporal required adding or changing >100 lines of code.
-It also required rearchitecting the application into two separate services (a Temporal worker and an API server) and adding a dependency on a third service, the Temporal Service.
+It also required rearchitecting the application into two separate services (a Temporal worker and an API server) and adding a runtime dependency on a third service, the Temporal Service.
 The total size of the Temporal implementation is 192 lines of code.
 
 All three implementations require Postgres with pgvector (as LlamaIndex's vector store).
