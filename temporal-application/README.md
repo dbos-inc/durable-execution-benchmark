@@ -1,4 +1,4 @@
-# Reference Application
+# Temporal Application
 
 This is a implementation of the document indexing application using Temporal for durable execution.
 
