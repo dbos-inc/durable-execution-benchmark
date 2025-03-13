@@ -1,4 +1,4 @@
-# Reference Application
+# Temporal Application
 
 This is a implementation of the document indexing application using Temporal for durable execution.
 
@@ -9,7 +9,7 @@ Required environment variables:
 
 To run:
 
-1. Download the Temporal Service binary from [here](https://learn.temporal.io/getting_started/python/dev_environment/).
+1. Download the Temporal Server binary from [here](https://learn.temporal.io/getting_started/python/dev_environment/).
 Start it (for simplicity in dev mode):
 
 ```shell
@@ -29,7 +29,7 @@ uv run python3 -m temporal.temporal
 uv run fastapi run app/main.py
 ```
 
-To test (requires the Temporal Service to be running):
+To test (requires the Temporal Server to be running):
 
 ```shell
 uv run pytest
