@@ -9,9 +9,9 @@ Because the application can ingest many document concurrently and because each d
 
 This repository contains three implementations of the application.
 
-- A [reference implementation](./reference-application/README.md) without any durable execution.
-- An [implementation using DBOS](./dbos-application/README.md) for durable execution.
-- An [implementation using Temporal](./dbos-application/README.md) for durable execution.
+- A [reference implementation](./reference-application) without any durable execution.
+- An [implementation using DBOS](./dbos-application) for durable execution.
+- An [implementation using Temporal](./dbos-application) for durable execution.
 
 Each implementation's README contains notes on how to run and test it.
 
