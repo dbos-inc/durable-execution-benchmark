@@ -4,7 +4,7 @@ This repository compares what is required to add durable execution to a referenc
 
 The reference application is a document indexing pipeline based loosely on LlamaIndex's [SEC Insights](https://github.com/run-llama/sec-insights) application.
 It ingests and indexes documents, then provides Retrieval Augmented Generation (RAG)-based querying of those documents.
-For example, it can ingest Apple's SEC filings for some years then accurately answer detailed questions about Apple's financial performance during that time.
+For example, it can ingest a company's SEC filings for some years then accurately answer detailed questions about the company's financial performance during that time.
 Because the application can ingest many document concurrently and because each document takes a long time to ingest, it greatly benefits from durable execution to ensure that it correctly ingests all requested documents.
 
 This repository contains three implementations of the application.
@@ -24,7 +24,7 @@ The total size of the DBOS implementation is 114 lines of code.
 It also required rearchitecting the application into two separate services (a Temporal worker and an API server) and adding a runtime dependency on a third service, the Temporal Server.
 The total size of the Temporal implementation is 192 lines of code.
 
-All three implementations require Postgres with pgvector (as LlamaIndex's vector store).
+All three implementations require Postgres with pgvector as a vector store.
 If you have Docker, you can start Postgres with:
 
 ```shell
